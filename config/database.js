@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export const connection = (app) => {
+export const startConnection = (app) => {
   mongoose
     .connect("mongodb://localhost/gloris", {
       useCreateIndex: true,
