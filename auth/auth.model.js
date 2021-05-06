@@ -1,22 +1,52 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
 const { model, Schema } = mongoose;
 
-const userSchema = new Schema(
+const UserSchema = new Schema(
   {
-    email: String,
-    password: String,
-    firstName: String,
-    lastName: String,
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+    },
   },
   { timestamps: true }
 );
 
-userSchema.methods.isValidPassword = function isValidPassword(password) {
+UserSchema.methods.isValidPassword = function isValidPassword(password) {
   return bcrypt.compare(password, this["password"]);
 };
 
-userSchema.pre("save", async function callBackNext(next) {
+UserSchema.statics.verifyToken = (token) => {
+  return jwt.verify(token, process.env.JWT_SECRET);
+};
+
+UserSchema.methods.generateToken = function generateToken() {
+  const { email } = this;
+  return jwt.sign({ email }, process.env.JWT_SECRET);
+};
+
+UserSchema.pre("save", async function callBackNext(next) {
   try {
     const hashPassword = await bcrypt.hash(this.password, 6);
 
@@ -29,4 +59,4 @@ userSchema.pre("save", async function callBackNext(next) {
   }
 });
 
-export const User = model("users", userSchema);
+export const User = model("users", UserSchema);
