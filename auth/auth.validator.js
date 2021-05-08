@@ -16,8 +16,20 @@ const loginSchema = config.keys({
 });
 
 const registerSchema = loginSchema.keys({
-  firstName: Joi.string().min(2).max(30).required().trim().lowercase(),
-  lastName: Joi.string().min(2).max(30).required().trim().lowercase(),
+  firstName: Joi.string()
+    .min(2)
+    .max(30)
+    .required()
+    .trim()
+    .lowercase()
+    .label("First name"),
+  lastName: Joi.string()
+    .min(2)
+    .max(30)
+    .required()
+    .trim()
+    .lowercase()
+    .label("Last name"),
 });
 
 const getErrorObj = (error) =>

@@ -27,7 +27,8 @@ const login = async (req, res) => {
     let password = req.body.password;
 
     const emailUser = await User.findOne({ email });
-    if (!emailUser) return res.status(404).json({ email: "Invalid email" });
+    if (!emailUser)
+      return res.status(404).json({ email: "Email does not exist" });
 
     const passwordMatches = await emailUser.isValidPassword(password);
     if (!passwordMatches)
