@@ -52,6 +52,7 @@ const login = async (req, res) => {
     res.cookie("token", emailUser.generateToken(), {
       httpOnly: true,
       sameSite: "none",
+      secure: true,
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     });
 
