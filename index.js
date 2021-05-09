@@ -9,19 +9,10 @@ import cors from "cors";
 config();
 
 const app = express();
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin:
-//       process.env.NODE_ENV === "production"
-//         ? /\.netlify\.app$/
-//         : process.env.ORIGIN,
-//   })
-// );
 app.use(
   cors({
     credentials: true,
-    origin: [/\.netlify\.app$/, "http://localhost:3000"],
+    origin: process.env.ORIGIN,
     optionsSuccessStatus: 200,
   })
 );

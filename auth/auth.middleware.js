@@ -10,9 +10,9 @@ const authGuard = async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (!user) throw new Error("Unauthenticated");
-    console.log(user);
 
-    res.locals.user = user;
+    const { password, ...rest } = user._doc;
+    res.locals.user = rest;
     return next();
   } catch (error) {
     console.error(error);
