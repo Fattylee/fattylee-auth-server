@@ -50,7 +50,6 @@ const login = async (req, res) => {
     // );
 
     res.cookie("token", emailUser.generateToken(), {
-      secure: false,
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     });
@@ -68,16 +67,21 @@ const me = async (_, res) => {
 
 const logout = (_, res) => {
   try {
-    res.set(
-      "Set-Cookie",
-      cookie.serialize("token", "", {
-        httpOnly: true,
-        // secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        path: "/",
-        expires: new Date(0),
-      })
-    );
+    // res.set(
+    //   "Set-Cookie",
+    //   cookie.serialize("token", "", {
+    //     httpOnly: true,
+    //     // secure: process.env.NODE_ENV === "production",
+    //     sameSite: "strict",
+    //     path: "/",
+    //     expires: new Date(0),
+    //   })
+    // );
+    res.cookie("token", "", {
+      maxAge: new Date(0),
+      httpOnly: true,
+    });
+
     res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);
