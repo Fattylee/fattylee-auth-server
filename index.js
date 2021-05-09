@@ -21,7 +21,8 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: [/\.netlify\.app$/, "http://localhost:3000"],
+    // origin: [/\.netlify\.app$/, "http://localhost:3000"],
+    origin: "http://localhost:3000",
     optionsSuccessStatus: 200,
   })
 );
