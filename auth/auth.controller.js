@@ -41,7 +41,8 @@ const login = async (req, res) => {
       "Set-Cookie",
       cookie.serialize("token", emailUser.generateToken(), {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        // secure: process.env.NODE_ENV === "production",
+        secure: true,
         path: "/",
         sameSite: "strict",
         maxAge: 3600,
