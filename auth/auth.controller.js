@@ -1,4 +1,3 @@
-import cookie from "cookie";
 import { User } from "./auth.model.js";
 
 const register = async (req, res) => {
@@ -37,22 +36,10 @@ const login = async (req, res) => {
     let user;
     ({ password, ...user } = emailUser._doc);
 
-    // res.set(
-    //   "Set-Cookie",
-    //   cookie.serialize("token", emailUser.generateToken(), {
-    //     httpOnly: true,
-    //     // secure: process.env.NODE_ENV === "production",
-    //     // secure: false,
-    //     path: "/",
-    //     sameSite: "strict",
-    //     maxAge: 3600,
-    //   })
-    // );
-
     res.cookie("token", emailUser.generateToken(), {
       httpOnly: true,
       sameSite: "none",
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     });
 
@@ -69,21 +56,11 @@ const me = async (_, res) => {
 
 const logout = (_, res) => {
   try {
-    // res.set(
-    //   "Set-Cookie",
-    //   cookie.serialize("token", "", {
-    //     httpOnly: true,
-    //     // secure: process.env.NODE_ENV === "production",
-    //     sameSite: "strict",
-    //     path: "/",
-    //     expires: new Date(0),
-    //   })
-    // );
     res.cookie("token", "", {
-      expires: new Date(0),
       httpOnly: true,
       sameSite: "none",
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
+      expires: new Date(0),
     });
 
     res.status(200).json({ success: true });
