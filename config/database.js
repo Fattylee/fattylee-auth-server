@@ -2,14 +2,14 @@ import mongoose from "mongoose";
 
 export const startConnection = (app) => {
   mongoose
-    .connect("mongodb://localhost/gloris", {
+    .connect(process.env.MONGO_URI, {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
     .then((res) => {
       console.log("Succesfully connected to mongodb");
-      const port = process.env.PORT || 4500;
+      const port = process.env.PORT;
       app.listen(port, () => {
         console.log("Server running on port", port);
       });

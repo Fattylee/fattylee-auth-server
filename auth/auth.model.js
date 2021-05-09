@@ -43,7 +43,9 @@ UserSchema.statics.verifyToken = (token) => {
 
 UserSchema.methods.generateToken = function generateToken() {
   const { email } = this;
-  return jwt.sign({ email }, process.env.JWT_SECRET);
+  return jwt.sign({ email }, process.env.JWT_SECRET, {
+    expiresIn: 60 * 60 * 24, // 1 day
+  });
 };
 
 UserSchema.pre("save", async function callBackNext(next) {
