@@ -48,10 +48,11 @@ const login = async (req, res) => {
     //     maxAge: 3600,
     //   })
     // );
-    res.cookie("token", token, {
+
+    res.cookie("token", emailUser.generateToken(), {
       secure: false,
       httpOnly: true,
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     });
 
     res.status(200).json(user);
