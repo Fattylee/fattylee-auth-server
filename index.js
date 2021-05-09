@@ -23,7 +23,7 @@ app.use(
     credentials: true,
     // origin: [/\.netlify\.app$/, "http://localhost:3000"],
     origin: "http://localhost:3000",
-    optionsSuccessStatus: 200,
+    // optionsSuccessStatus: 200,
   })
 );
 // app.use((req, res, next) => {

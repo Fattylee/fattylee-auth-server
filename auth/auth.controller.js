@@ -37,17 +37,22 @@ const login = async (req, res) => {
     let user;
     ({ password, ...user } = emailUser._doc);
 
-    res.set(
-      "Set-Cookie",
-      cookie.serialize("token", emailUser.generateToken(), {
-        httpOnly: true,
-        // secure: process.env.NODE_ENV === "production",
-        // secure: false,
-        path: "/",
-        sameSite: "strict",
-        maxAge: 3600,
-      })
-    );
+    // res.set(
+    //   "Set-Cookie",
+    //   cookie.serialize("token", emailUser.generateToken(), {
+    //     httpOnly: true,
+    //     // secure: process.env.NODE_ENV === "production",
+    //     // secure: false,
+    //     path: "/",
+    //     sameSite: "strict",
+    //     maxAge: 3600,
+    //   })
+    // );
+    res.cookie("token", token, {
+      secure: false,
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    });
 
     res.status(200).json(user);
   } catch (error) {
